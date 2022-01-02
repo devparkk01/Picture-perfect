@@ -1,0 +1,129 @@
+service: go-backend
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: go1.x
+  lambdaHashingVersion: 20201221
+  region: us-east-1
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: "arn:aws:dynamodb:*:*:*"
+
+package:
+  patterns:
+    - '!./**'
+    - ./bin/**
+
+functions:
+  getMovies:
+    handler: bin/getMovies
+    events:
+      - http:
+          path: /movie
+          method: get
+          cors: true
+
+
+  getMovie:
+    handler: bin/getMovie
+    events:
+      - http:
+          path: /movie/{movie_id}
+          method: get
+          cors: true
+          
+  addMovie:
+    handler: bin/addMovie
+    events:
+      - http:
+          path: /movie
+          method: post
+          cors: true
+
+  updateMovie:
+    handler: bin/updateMovie
+    events:
+      - http:
+          path: /movie/{movie_id}
+          method: put
+          cors : true
+
+  deleteMovie:
+    handler: bin/deleteMovie
+    events:
+      - http:
+          path: /movie/{movie_id}
+          method: delete
+          cors : true
+
+  addReview:
+    handler: bin/addReview
+    events:
+      - http:
+          path: /review
+          method: post
+          cors: true
+
+  getReview:
+    handler: bin/getReview
+    events:
+      - http:
+          path: /review/{review_id}
+          method: get
+          cors: true
+
+  updateReview:
+    handler: bin/updateReview
+    events:
+      - http:
+          path: /review/{review_id}
+          method: put
+          cors : true
+
+  deleteReview:
+    handler: bin/deleteReview
+    events:
+      - http:
+          path: /review/{review_id}
+          method: delete
+          cors : true
+
+  getReviews:
+    handler: bin/getReviews
+    events: 
+      - http:
+          path: /movie/{movie_id}/reviews
+          method: get
+          cors : true
+
+
+resources:
+  Resources:
+    AuthorsTable: 
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: movie-table
+        AttributeDefinitions:
+          - AttributeName: movie_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: movie_id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
+    ArticlesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: review-table
+        AttributeDefinitions:
+          - AttributeName: review_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: review_id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST

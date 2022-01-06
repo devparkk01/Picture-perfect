@@ -4,7 +4,7 @@ const ReviewList = (props) => {
   return (
     <>
       {props.list.length === 0 && (
-        <p style={{ color: "red" }}> No reviews added </p>
+        <p style={{ color: "white" }}> No reviews added </p>
       )}
       {props.list.length > 0 && (
         <div>

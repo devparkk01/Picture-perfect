@@ -42,7 +42,7 @@ const Review = (props) => {
       >
         {props.review.headline}
       </b>
-      <p style={{ fontSize: "14px" }}>{props.review.review}</p>
+      <p style={{ fontSize: "16px" }}>{props.review.review}</p>
     </Card>
   );
 };

@@ -36,13 +36,17 @@
 .remove-blue {
     text-decoration: none;
     color : black ;
+
 }
+
 .remove-blue:hover {
-    color : orangered ;
+    color : #30280b ;
+    text-decoration: underline;
+
 }
 
 .no-movie {
-    color: red;
+    color: whitesmoke;
 }
 
 .loader {

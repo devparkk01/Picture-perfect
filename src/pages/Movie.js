@@ -72,7 +72,7 @@ const Movie = (props) => {
                   style={{
                     fontWeight: "bolder",
                     fontSize: "30px",
-                    color: "red",
+                    color: "white",
                   }}
                 >
                   YOUR REVIEWS
@@ -85,10 +85,10 @@ const Movie = (props) => {
                 )}
 
                 { showReviewForm && <AddReview movie_id = {currentMovie.movie_id} username = {username} setShowReviewForm = {setShowReviewForm} />}
+              {isAuthenticated  ? <ReviewList list={reviews.filter( (item)=> (item.username === username))} username = {username}  /> : <h3> No reviews found</h3> }
 
               </div>
 
-              <ReviewList list={reviews.filter( (item)=> (item.username === username))} username = {username}  />
             </div>
 
             {/* Other Reviews */}
@@ -99,7 +99,7 @@ const Movie = (props) => {
                   style={{
                     fontWeight: "bolder",
                     fontSize: "30px",
-                    color: "red",
+                    color: "white",
                   }}
                 >
                   ALL REVIEWS

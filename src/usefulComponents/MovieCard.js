@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 export const MovieCard = (props) => {
   return (
-    <Link to={`/movie/${props.movie_id}`}>
+    <Link to={`/movie/${props.movie_id}`} className = "remove-blue">
       <Col className="mr-2 my-2">
         <Card style={{ width: "min(100% ,220px)" }}>
           <Card.Img
@@ -15,8 +15,9 @@ export const MovieCard = (props) => {
             alt={props.title}
             height="300px"
           />
-          <Card.Body className="remove-blue">
-            <Card.Title className="text-center ">{props.title}</Card.Title>
+          <Card.Body >
+            <Card.Title className="text-center">{props.title}</Card.Title>
+            {/* <p >{props.title}</p> */}
           </Card.Body>
         </Card>
       </Col>

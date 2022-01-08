@@ -6,12 +6,16 @@ import { Link } from "react-router-dom";
 import { AppContext } from "../lib/contextLib";
 
 const Navbar = (props) => {
-  const { isAuthenticated, setIsAuthenticated , username } = useContext(AppContext);
+  const { userDetails , setUserDetails } = useContext(AppContext);
 
   const handleLogout = () => {
     if (window.confirm("Are you sure ? ") === true) {
       Auth.signOut();
-      setIsAuthenticated(false);
+      setUserDetails({
+        isAuthenticated : false ,
+        username : ''
+      }) 
+      // setIsAuthenticated(false);
     }
   };
   return (
@@ -43,20 +47,20 @@ const Navbar = (props) => {
                 </Link>
               </li>
               <li className="nav-item">
-                {!isAuthenticated && (
+                {!userDetails.isAuthenticated && (
                   <Link className="nav-link" aria-current="page" to="/login">
                     Login
                   </Link>
                 )}
               </li>
               <li className="nav-item">
-                {isAuthenticated ? (
+                {userDetails.isAuthenticated ? (
                   <Link
                     className="nav-link"
                     aria-current="page"
                     onClick={handleLogout}
                   >
-                    Logout({username})
+                    Logout({userDetails.username})
                   </Link>
                 ) : (
                   <Link className="nav-link" aria-current="page" to="/signup">

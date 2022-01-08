@@ -10,6 +10,7 @@ import { AppContext } from "../lib/contextLib";
 import { Link } from "react-router-dom";
 import AddReview from "../usefulComponents/AddReview";
 
+
 const BASE_URL = config.api.BASEURL;
 
 const Movie = (props) => {
@@ -17,8 +18,20 @@ const Movie = (props) => {
   const [currentMovie, setCurrentMovie] = useState("");
   const [loading, setLoading] = useState(true);
   const [reviews, setReviews] = useState([]);
-  const [showReviewForm , setShowReviewForm] = useState(false) ; 
-  const {isAuthenticated, setIsAuthenticated , username } = useContext(AppContext);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const { userDetails } = useContext(AppContext);
+  const [message , setMessage ] = useState("") ;
+  const [loadData ,setLoadData] = useState(false) ; 
+
+  const messageHandler = (newMessage)=> {
+   
+    setMessage(newMessage) ;
+    setLoadData(!loadData) ;
+    setTimeout( () => {
+      setMessage("") ; 
+    }, 4000)
+
+  }
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -41,7 +54,6 @@ const Movie = (props) => {
       try {
         const response = await fetch(curl);
         const responseData = await response.json();
-        console.log(responseData);
         setReviews(responseData);
       } catch (err) {
         console.log(err);
@@ -49,7 +61,7 @@ const Movie = (props) => {
     };
 
     fetchAllReviews();
-  }, []);
+  }, [loadData]);
 
   return (
     <div>
@@ -68,37 +80,65 @@ const Movie = (props) => {
             {/* Your reviews */}
             <div className="mt-4">
               <div>
-                <text
-                  style={{
-                    fontWeight: "bolder",
-                    fontSize: "30px",
-                    color: "white",
-                  }}
-                >
-                  YOUR REVIEWS
-                </text>
+                <p>
+                  <text
+                    style={{
+                      fontWeight: "bolder",
+                      fontSize: "28px",
+                      color: "white",
+                    }}
+                  >
+                    YOUR REVIEWS
+                  </text>
 
-                {isAuthenticated ? (
-                  <Link className = "btn btn-primary" style = {{ float : "right"}} onClick = { () => {setShowReviewForm(!showReviewForm)}}> + REVIEW</Link>
-                ) : (
-                  <Link className = "btn btn-primary" style = {{float : "right"}} to = "/login"> Signin to Add REVIEW</Link>
+                  {userDetails.isAuthenticated ? (
+                    <Link
+                      className="btn btn-primary"
+                      style={{ float: "right" }}
+                      onClick={() => {
+                        setShowReviewForm(!showReviewForm);
+                      }}
+                    >
+                      + REVIEW
+                    </Link>
+                  ) : (
+                    <Link
+                      className="btn btn-primary"
+                      style={{ float: "right" }}
+                      to="/login"
+                    >
+                      Signin to Add REVIEW
+                    </Link>
+                  )}
+                </p>
+                { message && <p className = "text-center text-white">{message} </p>}
+                {showReviewForm && (
+                  <AddReview
+                    movie_id={currentMovie.movie_id}
+                    username={userDetails.username}
+                    setShowReviewForm={setShowReviewForm}
+                    onAddReview = {messageHandler}
+                  />
                 )}
-
-                { showReviewForm && <AddReview movie_id = {currentMovie.movie_id} username = {username} setShowReviewForm = {setShowReviewForm} />}
-              {isAuthenticated  ? <ReviewList list={reviews.filter( (item)=> (item.username === username))} username = {username}  /> : <h3> No reviews found</h3> }
-
+                {/* {userDetails.isAuthenticated  && <ReviewList list={reviews.filter( (item)=> (item.username === userDetails.username))} username = {userDetails.username}  /> } */}
+                <ReviewList
+                  list={reviews.filter(
+                    (item) => item.username === userDetails.username
+                  )}
+                  username={userDetails.username}
+                  onDeleteReview = {messageHandler}
+                />
               </div>
-
             </div>
 
-            {/* Other Reviews */}
+            {/* All Reviews */}
 
             <div className="mt-4">
               <div>
                 <p
                   style={{
                     fontWeight: "bolder",
-                    fontSize: "30px",
+                    fontSize: "28px",
                     color: "white",
                   }}
                 >

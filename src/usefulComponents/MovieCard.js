@@ -1,5 +1,4 @@
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Link } from "react-router-dom";
@@ -13,11 +12,10 @@ export const MovieCard = (props) => {
             variant="top"
             src={props.poster}
             alt={props.title}
-            height="300px"
+            height="320px"
           />
           <Card.Body >
-            <Card.Title className="text-center">{props.title}</Card.Title>
-            {/* <p >{props.title}</p> */}
+            <p className="text-center" >{props.title}</p>
           </Card.Body>
         </Card>
       </Col>
@@ -41,16 +39,16 @@ export const MovieInfo = (props) => {
         {/* <Button variant="primary">Go somewhere</Button> */}
         <div className="col-sm-8">
           <Card.Body>
-            <Card.Title>
+            <Card.Title style = {{fontWeight : "bolder"}}>
               {props.movie.title}
               <hr />
             </Card.Title>
             <Card.Text>{props.movie.description}</Card.Text>
 
             <div style={{ color: "grey" }}>
-              <p>Genre : {props.movie.genre.map((item) => `* ${item} `)} </p>
+              <p>Genre : {props.movie.genre.join(", ")} </p>
               <p>
-                Starcast : {props.movie.starCast.map((item) => ` * ${item} `)}
+                Starcast : {props.movie.starCast.join(", ")}
               </p>
               <p> Director : {props.movie.director}</p>
               <p> Release Date : {props.movie.releaseDate}</p>

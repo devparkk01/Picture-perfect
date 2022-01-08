@@ -10,9 +10,12 @@ import { Auth } from "aws-amplify";
 
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
-  const [username , setUsername] = useState("") ; 
+  const [userDetails ,setUserDetails ] = useState({
+    isAuthenticated : false ,
+    username : ""
+  }) ;
+
   
   useEffect(() => {
     onLoad();
@@ -22,10 +25,9 @@ function App() {
     try {
       await Auth.currentSession();
       const user = await Auth.currentUserInfo() ; 
-      const userName = await user.username  ;
-      setUsername(userName);  
-      // console.log(username) ; 
-      setIsAuthenticated(true);
+      const username = await user.username  ;
+      setUserDetails( {isAuthenticated : true , username : username}) ;
+
     } catch (e) {
       if (e !== "No current user") {
         alert(e);
@@ -38,7 +40,7 @@ function App() {
     !isAuthenticating && (
       <div>
         <Switch>
-          <AppContext.Provider value={{ isAuthenticated, setIsAuthenticated , username}}>
+          <AppContext.Provider value={{ userDetails ,setUserDetails}}>
             <Route exact path="/">
               <HomePage />
             </Route>

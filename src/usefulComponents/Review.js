@@ -6,42 +6,42 @@ const Review = (props) => {
 
   const deleteReviewHandler = async () => {
     const url = BASE_URL + "/review/" + props.review.review_id;
-    console.log(url);
 
     const response = await fetch(url, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
+    // console.log(response)
 
-    // const responseData = await response.json() ;
-    console.log(response);
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
+    props.onDeleteHandler("Review Deleted Successfully");
   };
 
   return (
-    <Card className="border-primary mb-3 p-2">
+    <Card
+      className="mb-3 p-2 text-white"
+      style={{ backgroundColor: "#1f2124" }}
+    >
       <Card.Title>
-        <text className="btn-secondary">{props.review.username}</text>
+        <img src="../img/user-solid.svg" style={{ width: "24px" }} />
+        <text style={{ marginLeft: "10px" }}>{props.review.username}</text>
 
         {props.username && (
           <img
-          className="btn"
-          style={{ float: "right" }}
-          onClick={deleteReviewHandler}
-          src = "https://img.icons8.com/plasticine/30/000000/filled-trash.png"
+            className="btn"
+            style={{ float: "right", marginTop: "-6px" }}
+            onClick={deleteReviewHandler}
+            src="https://img.icons8.com/plasticine/25/000000/filled-trash.png"
           />
-          )}
-          <text style={{ float: "right" }}>({props.review.rating}/10)</text>
+        )}
+        <text style={{ float: "right" }}>({props.review.rating}/10)</text>
         <hr />
       </Card.Title>
-      <b
-        className="btn-secondary"
-        style={{ fontWeight: "bold", marginTop: "-10px", marginBottom: "10px" }}
+      <text
+        // className="btn-secondary"
+        style={{ fontWeight: "bold", marginTop: "-20px", marginBottom: "10px" }}
       >
         {props.review.headline}
-      </b>
+      </text>
       <p style={{ fontSize: "16px" }}>{props.review.review}</p>
     </Card>
   );

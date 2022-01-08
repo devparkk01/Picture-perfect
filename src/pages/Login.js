@@ -12,8 +12,7 @@ const Login = (props) => {
   const [err, setErr] = useState({ error: false, message: "" });
   const history = useHistory();
 
-  const {isAuthenticated , setIsAuthenticated} = useContext(AppContext);
-  console.log(isAuthenticated);
+  const {setUserDetails} = useContext(AppContext);
 
 
 
@@ -28,11 +27,13 @@ const Login = (props) => {
     e.preventDefault();
     try {
       const user = await Auth.signIn(Username, password);
-      console.log(user);
-      setIsAuthenticated(true) ; 
+      setUserDetails({
+        isAuthenticated : true ,
+        username : user.username
+      })
       history.push("/");
     } catch (error) {
-      console.log(error.message);
+      // console.log(error.message);
       setErr({ error: true, message: error.message });
     }
   };
@@ -73,7 +74,7 @@ const Login = (props) => {
             />
           </div>
 
-          <div className="form-group mt-2">
+          {/* <div className="form-group mt-2">
             <div className="custom-control custom-checkbox">
               <input
                 type="checkbox"
@@ -84,7 +85,8 @@ const Login = (props) => {
                 Remember me
               </label>
             </div>
-          </div>
+          </div> */}
+          
           <p className="forgot-password">
             <a href="#">Forgot password?</a>
           </p>

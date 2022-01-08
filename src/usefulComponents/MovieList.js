@@ -17,7 +17,7 @@ const MovieList = (props) => {
       try {
         const response = await fetch(BASE_URL + "/movie");
         const responseData = await response.json();
-        console.log(responseData);
+        // console.log(responseData);
         setMovieList(responseData);
         setLoading(false);
       } catch (err) {
@@ -43,9 +43,11 @@ const MovieList = (props) => {
               title={movie.title}
               movie_id={movie.movie_id}
               genre={movie.genre}
-              starCast={movie.StarCast}
+              starCast={movie.starCast}
               poster={movie.poster}
               description={movie.description}
+              duration = {movie.duration}
+              releaseDate = {movie.releaseDate}
             />
           ))}
         </>

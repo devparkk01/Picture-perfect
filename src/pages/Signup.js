@@ -8,14 +8,13 @@ const Confirmation = (props) => {
 
   return (
     <div>
-      <p>New Account has been created. Verification mail has been sent to your mail id. Click on the confirmation link to verify your account.  </p>
+      <p>New Account has been created. Verification mail has been sent to your mail id. Click on the confirmation link to verify your account. Sign in after that. </p>
+      <Link to = "/login" className = "btn btn-primary remove-blue">Log in</Link>
+
     </div>
 
   )
 }
-
-
-
 
 
 const Signup = (props) => {
@@ -69,7 +68,6 @@ const Signup = (props) => {
     catch (error){
       setErr({error : true , message : error.message })
       setTimeout( ()=> {setErr({error : false , message : "" } )} , 4000) ;
-      console.log(err) ;
     }
 
   }
